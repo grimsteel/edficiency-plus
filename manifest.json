@@ -1,0 +1,25 @@
+{
+  "name": "Edficiensee",
+  "description": "See more data in edficiency",
+  "version": "1.0",
+  "permissions": [
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://westwood.edf.school/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "ruleset_1",
+      "enabled": true,
+      "path": "rules.json"
+    }]
+  },
+  "manifest_version": 3,
+  "web_accessible_resources": [
+    {
+      "resources": [ "new-requestsessions.js" ],
+      "matches": [ "https://westwood.edf.school/*" ]
+    }
+  ]
+}
