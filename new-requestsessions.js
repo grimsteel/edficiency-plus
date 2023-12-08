@@ -284,7 +284,7 @@ function createRequestList(){
             '<span class="badge badge-primary">'+((req.priority==2)?'L':'H')+'</span>&nbsp'+
             ((req.frontrow == 1)?'<i class="fa fa-hand-paper-o"></i>&nbsp':'')+
             ((req.note !== "")?'<i class="fa fa-commenting" style="cursor:pointer;" onclick="commentPopup(\''+req.note+'\')"></i>&nbsp':'')+
-            reqses.tname+' ('+reqses.location+')&nbsp<em> '+ reqses.name + ' (' + (req.pendingconfirm ? 'Approved' : 'Not Yet Approved') + ')</em></div>'+
+            reqses.tname+' ('+reqses.location+')&nbsp<em> '+ reqses.name + ' (' + (req.pendingconfirm == 1 ? 'Approved' : 'Not Yet Approved') + ')</em></div>'+
           '</div>';
           flatRequests.push(req);
         }
