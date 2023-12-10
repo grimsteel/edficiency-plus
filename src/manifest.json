@@ -24,5 +24,11 @@
       "world": "MAIN",
       "run_at": "document_end"
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Open Tutorial"
+  }
 }

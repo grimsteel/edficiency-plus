@@ -72,7 +72,23 @@ if (location.pathname.includes("manage/profile")) {
     }
   })
 } else if (location.pathname.includes("requests/requestsessions")) {
-  const sessionContainer = document.getElementById("sessionContainer");
+  function getSessionData(id) {
+    const sessionData = window.sessionDict[id];
+    const sessionSizeData = window.sessionsizes[id];
+    const numSeats = +sessionData.openseats;
+    const numApproved = +sessionSizeData.hinum;
+    const numRequested = +sessionSizeData.reqnum;
+    const percentApproved = Math.round(numApproved / numSeats * 100);
+    const percentRequested = Math.round(numRequested / numSeats * 100);
+
+    return {
+      numSeats,
+      numApproved,
+      numRequested,
+      percentApproved,
+      percentRequested
+    };
+}
   addEventListener("load", () => {
     const oldCreateSessionList = window.createSessionList;
     const oldClickSession = window.clickSession;
@@ -91,21 +107,16 @@ if (location.pathname.includes("manage/profile")) {
         }
 
         // Add the additional percentages to the badge
-        const sessionData = window.sessionDict[el.id];
-        const sessionSizeData = window.sessionsizes[el.id];
-        const numSeats = +sessionData.openseats;
-        const numApproved = +sessionSizeData.hinum;
-        const numRequested = +sessionSizeData.reqnum;
-        const percentApproved = Math.round(numApproved / numSeats * 100);
-        const percentRequested = Math.round(numRequested / numSeats * 100);
+        const { numSeats, numApproved, numRequested, percentApproved, percentRequested } = getSessionData(el.id);
         el.querySelector(".badge").innerText += ` (${percentApproved}% / ${percentRequested}%)`;
-        el.querySelector(".badge").title = `${numApproved} approved / ${numRequested} requested / ${numSeats} seats`;
+        el.querySelector(".badge").title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
       });
     }
 
     // Apply our changes to the expanded sessions
     window.clickSession = function (session) {
       oldClickSession(session);
+      /** @type {HTMLElement}  */
       const sessionEl = session.get(0);
 
       sessionEl.querySelectorAll(".row").forEach(el => {
@@ -117,6 +128,21 @@ if (location.pathname.includes("manage/profile")) {
         el.replaceWith(el.firstElementChild);
       });
 
+      const detailsItem = sessionEl.querySelector(".sessionRequestOptions").firstElementChild;
+      detailsItem.firstElementChild.classList.add("font-weight-bold");
+      detailsItem.firstElementChild.firstElementChild.classList.add("font-weight-normal");
+
+      const statsItem = detailsItem.insertAdjacentElement("afterend", document.createElement("div"));
+      statsItem.classList.add("mb-2", "px-2");
+      const statsHeader = statsItem.appendChild(document.createElement("span"));
+      statsHeader.classList.add("font-weight-bold");
+      statsHeader.innerText = "Stats: ";
+      const statsText = statsItem.appendChild(document.createElement("span"));
+
+      const { numSeats, numApproved, numRequested, percentApproved, percentRequested } = getSessionData(sessionEl.id);
+
+      statsText.innerText = `${numApproved} confirmed (${percentApproved}%) / ${numRequested} requested (${percentRequested}%) / ${numSeats} total seats`;
+
       sessionEl.querySelector("#helpIcon")?.classList.remove("bg-white");
       sessionEl.querySelector("#helpNeeded")?.classList.remove("border-secondary");
       sessionEl.querySelector("#helpNeeded")?.classList.add("align-items-center");
@@ -126,7 +152,7 @@ if (location.pathname.includes("manage/profile")) {
     window.createRequestList = function () {
       oldCreateRequestList();
 
-      document.querySelectorAll(".request-date").forEach(el => {
+      document.querySelectorAll(".request-date").forEach((el, i) => {
         el.classList.remove("bg-white", "border", "border-dark", "rounded");
         el.classList.add("card", "bg-secondary-bg");
         // Date header
@@ -139,7 +165,28 @@ if (location.pathname.includes("manage/profile")) {
 
         el.lastElementChild.classList.remove("p-1");
         el.querySelector(".input-group").classList.remove("ml-1", "border", "border-secondary");
-        el.querySelector(".form-control").classList.add("align-items-center", "d-flex", "flex-wrap");
+        const formControl = el.querySelector(".form-control");
+        formControl.classList.add("align-items-center", "d-flex", "flex-wrap");
+        formControl.classList.replace("bg-warning", "bg-warning-subtle");
+
+        // Add the confirmed/not confirmed badge
+        const rosterEntry = window.roster[i];
+        const requestData = window.serverData.requests.find(request => window.sessionDict[request.sessionid].date === rosterEntry.date);
+
+        if (requestData) {
+          const session = window.sessionDict[requestData.sessionid];
+          const sessionSizeData = window.sessionsizes[requestData.sessionid];
+          const isConfirmed = requestData.pendingconfirm === "1"; // these edficiency people do not know how to use booleans
+          const isOnWaitlist = !isConfirmed && +session.openseats <= +sessionSizeData.reqnum;
+          
+          const confirmedBadge = document.createElement("span");
+          confirmedBadge.classList.add("badge", `badge-${isConfirmed ? "success" : "warning"}`);
+          confirmedBadge.title = isConfirmed ? "Confirmed" : "Not yet confirmed";
+          const icon = confirmedBadge.appendChild(document.createElement("i"));
+          // Show a checkmark if confirmed, an exclamation mark if on waitlist, and a clock if not confirmed
+          icon.classList.add("fa", `fa-${isConfirmed ? "check" : isOnWaitlist ? "exclamation" : "clock-o"}`);
+          formControl.prepend(confirmedBadge, "\u00a0"); // &nbsp;
+        }
       });
     }
   });
