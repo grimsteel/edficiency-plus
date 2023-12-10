@@ -5,6 +5,8 @@ $color-mode-type: media-query;
 
 $grid-breakpoints: map-remove($grid-breakpoints, xxl);
 $container-max-widths: map-remove($container-max-widths, xxl);
+$badge-padding-y: 0.25rem;
+$badge-padding-x: 0.4rem;
 
 @import "variables-dark";
 @import "maps";
@@ -26,6 +28,7 @@ $container-max-widths: map-remove($container-max-widths, xxl);
 @import "nav";
 @import "navbar";
 @import "card";
+@import "tooltip";
 @import "badge";
 @import "alert";
 @import "list-group";
@@ -55,7 +58,11 @@ $utilities: map-merge(
           center: center,
         )
       ),
-    )
+    ),
+    "font-weight": map-merge(
+      map-get($utilities, "font-weight"),
+      ( class: "font-weight" )
+    ),
   )
 );
 
@@ -68,12 +75,28 @@ $utilities: map-merge(
   width: 100%;
 }
 
-.jconfirm .jconfirm-box {
+.jconfirm .jconfirm-box,.session.card:not(.text-white):hover {
   background-color: var(--bs-body-bg) !important;
 }
 
 .bg-secondary-bg {
   background-color: rgba(var(--bs-secondary-bg-rgb), 0.5);
+}
+
+.badge.badge-primary {
+  @extend .text-bg-primary;
+}
+
+.badge.badge-danger {
+  @extend .text-bg-danger;
+}
+
+.badge.badge-success {
+  @extend .text-bg-success;
+}
+
+.badge.badge-warning {
+  @extend .text-bg-warning;
 }
 
 img[src="https://westwood.edf.school/public/img/sectigo.png"] {
