@@ -1,6 +1,0 @@
-[{
-    "id": 1,
-    "priority": 1,
-    "action": { "type": "redirect", "redirect": { "extensionPath": "/new-requestsessions.js" } },
-    "condition": { "urlFilter": "https://westwood.edf.school/public/js/requestsessions.js", "resourceTypes": ["script"] }
-}]

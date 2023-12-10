@@ -1,0 +1,96 @@
+$color-mode-type: media-query;
+
+@import "functions";
+@import "variables";
+
+$grid-breakpoints: map-remove($grid-breakpoints, xxl);
+$container-max-widths: map-remove($container-max-widths, xxl);
+
+@import "variables-dark";
+@import "maps";
+@import "mixins";
+@import "utilities";
+
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "containers";
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "nav";
+@import "navbar";
+@import "card";
+@import "badge";
+@import "alert";
+@import "list-group";
+@import "close";
+@import "modal";
+
+@import "helpers";
+
+// Edficiency uses bootstrap 4, which uses left/right instead of start/end
+
+$utilities: map-merge(
+  $utilities, (
+    "margin-start": map-merge(
+      map-get($utilities, "margin-start"),
+      (class: ml)
+    ),
+    "margin-end": map-merge(
+      map-get($utilities, "margin-end"),
+      (class: mr)
+    ),
+    "text-align": map-merge(
+      map-get($utilities, "text-align"),
+      (
+        values: (
+          left: left,
+          right: right,
+          center: center,
+        )
+      ),
+    )
+  )
+);
+
+.form-group {
+  @extend .mb-3;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.jconfirm .jconfirm-box {
+  background-color: var(--bs-body-bg) !important;
+}
+
+.bg-secondary-bg {
+  background-color: rgba(var(--bs-secondary-bg-rgb), 0.5);
+}
+
+img[src="https://westwood.edf.school/public/img/sectigo.png"] {
+  width: 106px;
+}
+
+small {
+  font-size: 80%;
+}
+
+.form-row {
+  @extend .row, .align-items-center;
+}
+
+.teacher.list-group-item {
+  border-top-width: 1px;
+  border-radius: 5px;
+}
+
+@import "utilities/api";

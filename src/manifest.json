@@ -1,6 +1,6 @@
 {
-  "name": "Edficiensee",
-  "description": "See more data in edficiency",
+  "name": "Edficiency+",
+  "description": "Unlock Edficiency's maximum potential",
   "version": "1.0",
   "permissions": [
     "declarativeNetRequestWithHostAccess"
@@ -16,10 +16,13 @@
     }]
   },
   "manifest_version": 3,
-  "web_accessible_resources": [
+  "content_scripts": [
     {
-      "resources": [ "new-requestsessions.js" ],
-      "matches": [ "https://westwood.edf.school/*" ]
+      "matches": [ "https://westwood.edf.school/*" ],
+      "js": [ "injected-script.js" ],
+      "css": [ "bootstrap.min.css" ],
+      "world": "MAIN",
+      "run_at": "document_end"
     }
   ]
 }

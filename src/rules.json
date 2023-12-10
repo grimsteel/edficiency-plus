@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "redirect", "redirect": { "url": "https://google.com/favicon.ico" } },
+    "condition": { "urlFilter": "https://westwood.edf.school/public/img/g-logo.png", "resourceTypes": ["image"] }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "redirect", "redirect": { "url": "https://roundrockisd.org/files/2023/07/Westwood_Logo_Color.png" } },
+    "condition": { "urlFilter": "https://westwood.edf.school/public/logos/westwood.png", "resourceTypes": ["image"] }
+  }
+]
