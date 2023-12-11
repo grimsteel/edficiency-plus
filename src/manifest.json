@@ -9,18 +9,32 @@
     "https://westwood.edf.school/*"
   ],
   "declarative_net_request": {
-    "rule_resources": [{
-      "id": "ruleset_1",
-      "enabled": true,
-      "path": "rules.json"
-    }]
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
   },
   "manifest_version": 3,
+  "icons": {
+    "128": "/icons/icon-128.png",
+    "48": "/icons/icon-48.png",
+    "32": "/icons/icon-32.png",
+    "16": "/icons/icon-16.png"
+  },
   "content_scripts": [
     {
-      "matches": [ "https://westwood.edf.school/*" ],
-      "js": [ "injected-script.js" ],
-      "css": [ "bootstrap.min.css" ],
+      "matches": [
+        "https://westwood.edf.school/*"
+      ],
+      "js": [
+        "injected-script.js"
+      ],
+      "css": [
+        "bootstrap.min.css"
+      ],
       "world": "MAIN",
       "run_at": "document_end"
     }

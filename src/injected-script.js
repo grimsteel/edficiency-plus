@@ -2,6 +2,26 @@
 
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']")?.remove();
 
+// get the user's name
+userName = document.querySelector("small")?.innerText.substring(21);
+
+// remove the old user name container, and replace the h4 with a happy greeting
+document.querySelector(".col.col-md-4.col-lg-3")?.remove();
+document.querySelector("h4").innerText = "Hello, " + userName + "!";
+
+// give the navbar styles
+document.querySelector("#cssmenu").style.position = "fixed";
+document.querySelector("#cssmenu").style.width = "100%";
+document.querySelector("#cssmenu").style.top = "0";
+document.querySelector("#cssmenu").style.background = "#343a40";
+document.querySelector("#cssmenu").style.height = "auto";
+document.querySelector("#cssmenu").style.boxShadow = "none";
+
+// the auto-height of the navbar, and add 10px of margin
+var cssmenuHeight = document.querySelector("#cssmenu").offsetHeight + 10;
+
+document.querySelector("#bannerBar").style.marginTop = cssmenuHeight + "px";
+
 // Edficiency's current assignment card is really ugly. This makes the card look like a normal one
 document.querySelectorAll(".card.border.border-dark").forEach(el => {
   el.classList.remove("border", "border-dark", "bg-light");
