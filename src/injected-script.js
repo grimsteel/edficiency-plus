@@ -198,7 +198,7 @@ if (location.pathname.includes("manage/profile")) {
           const isOnWaitlist = !isConfirmed && +session.openseats <= +sessionSizeData.reqnum;
           
           const confirmedBadge = document.createElement("span");
-          confirmedBadge.classList.add("badge", `badge-${isConfirmed ? "success" : "warning"}`);
+          confirmedBadge.classList.add("badge", `badge-${isConfirmed ? "success" : isOnWaitlist ? "danger" : "warning"}`);
           confirmedBadge.title = isConfirmed ? "Confirmed" : "Not yet confirmed";
           const icon = confirmedBadge.appendChild(document.createElement("i"));
           // Show a checkmark if confirmed, an exclamation mark if on waitlist, and a clock if not confirmed

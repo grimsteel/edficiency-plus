@@ -15,7 +15,7 @@
       box-shadow: inset 0 0.5em 1.5em rgb(0 0 0 / 10%), inset 0 0.125em 0.5em rgb(0 0 0 / 15%);
     }
 
-    #session-card-description:empty::after {
+    #session-card-description:empty::after, #request-card-description:empty::after {
       content: "Hover over the new parts of the session card to learn more about them.";
     }
 
@@ -25,22 +25,41 @@
       padding: 0.25rem;
       margin: 0.25rem;
     }
+
+    #example-request-card .form-control:has(#request-card-waitlist:not([hidden])) {
+      background-color: var(--bs-warning-bg-subtle);
+    }
+
+    #example-request-card .form-control .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
-  <svg xmlns="http://www.w3.org/2000/svg">
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc. -->
-    <symbol id="minus" viewBox="0 0 512 512">
+    <symbol id="minus" viewBox="0 0 512 512" fill="currentColor">
       <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
     </symbol>
-    <symbol id="check" viewBox="0 0 448 512">
+    <symbol id="check" viewBox="0 0 448 512" fill="currentColor">
       <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
     </symbol>
-    <symbol id="hand" viewBox="0 0 512 512">
+    <symbol id="hand" viewBox="0 0 512 512" fill="currentColor">
       <path d="M256 0c-25.3 0-47.2 14.7-57.6 36c-7-2.6-14.5-4-22.4-4c-35.3 0-64 28.7-64 64V261.5l-2.7-2.7c-25-25-65.5-25-90.5 0s-25 65.5 0 90.5L106.5 437c48 48 113.1 75 181 75H296h8c1.5 0 3-.1 4.5-.4c91.7-6.2 165-79.4 171.1-171.1c.3-1.5 .4-3 .4-4.5V160c0-35.3-28.7-64-64-64c-5.5 0-10.9 .7-16 2V96c0-35.3-28.7-64-64-64c-7.9 0-15.4 1.4-22.4 4C303.2 14.7 281.3 0 256 0zM240 96.1c0 0 0-.1 0-.1V64c0-8.8 7.2-16 16-16s16 7.2 16 16V95.9c0 0 0 .1 0 .1V232c0 13.3 10.7 24 24 24s24-10.7 24-24V96c0 0 0 0 0-.1c0-8.8 7.2-16 16-16s16 7.2 16 16v55.9c0 0 0 .1 0 .1v80c0 13.3 10.7 24 24 24s24-10.7 24-24V160.1c0 0 0-.1 0-.1c0-8.8 7.2-16 16-16s16 7.2 16 16V332.9c-.1 .6-.1 1.3-.2 1.9c-3.4 69.7-59.3 125.6-129 129c-.6 0-1.3 .1-1.9 .2H296h-8.5c-55.2 0-108.1-21.9-147.1-60.9L52.7 315.3c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0L119 336.4c6.9 6.9 17.2 8.9 26.2 5.2s14.8-12.5 14.8-22.2V96c0-8.8 7.2-16 16-16c8.8 0 16 7.1 16 15.9V232c0 13.3 10.7 24 24 24s24-10.7 24-24V96.1z"/>
     </symbol>
-    <symbol id="comment" viewBox="0 0 512 512">
-      <path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4l0 0 0 0 0 0 0 0 .3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/>
+    <symbol id="commenting" viewBox="0 0 512 512" fill="currentColor">
+      <path d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32S0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.6 .6-1 1.1-1.3 1.4l-.3 .3 0 0 0 0 0 0 0 0c-4.6 4.6-5.9 11.4-3.4 17.4c2.5 6 8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+    </symbol>
+    <symbol id="search" viewBox="0 0 512 512" fill="currentColor">
+      <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+    </symbol>
+    <symbol id="exclamation" viewBox="0 0 64 512" fill="currentColor">
+      <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM32 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/>
+    </symbol>
+    <symbol id="clock" viewBox="0 0 512 512" fill="currentColor">
+      <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
     </symbol>
   </svg>
   <main>
@@ -84,7 +103,7 @@
                   <button class="btn btn-sm btn-outline-primary mr-1">Request Low</button>
                   <button class="btn btn-sm btn-outline-primary ml-1" title="High priority requests require a note">Request High</button></div>
               </div>
-              <div class="px-2 d-flex justify-content-between mb-1 pe-none">
+              <div class="px-2 d-flex justify-content-between mb-1">
                 <div class="input-group input-group-sm mb-1 mt-2 w-100"><span class="input-group-text">Note:</span><input type="text" class="form-control"></div>
               </div>
             </div>
@@ -103,17 +122,34 @@
     <div class="container col-xxl-8 px-4 py-5">
       <div class="row flex-lg-row align-items-center g-5 py-5">
         <div class="col-10 col-sm-8 col-lg-6">
-          <div class="scroll-snap-element shadow p-2 my-1 request-date card bg-secondary-bg" id="example-request-card">
-            <div class="alert alert-secondary py-2">Monday, December 11th</div>
-            <div class="period-list d-flex my-auto h-100">
-              <div class="input-group rounded shadow-sm">
-                <span class="input-group-text"><i class="fa fa-minus-circle text-danger" title="Delete Request"></i></span>
+          <div class="shadow p-2 my-1 card bg-secondary-bg" id="example-request-card">
+            <div class="alert alert-secondary py-2">Tuesday, December 12th</div>
+            <div class="d-flex my-auto h-100">
+              <div class="input-group rounded shadow-sm pe-none">
+                <span class="input-group-text">
+                  <svg class="text-danger" title="Delete Request" width="14" height="14"><use xlink:href="#minus"></svg>
+                </span>
                 <div class="form-control align-items-center d-flex flex-wrap" data-toggle="tooltip" data-html="true" title="">
-                  <span class="badge badge-success" title="Confirmed"><i class="fa fa-check"></i></span>&nbsp;
-                  <span class="badge badge-primary">H</span>&nbsp;
-                  <i class="fa fa-hand-paper-o"></i>&nbsp;
-                  <i class="fa fa-commenting"></i>&nbsp;
-                  GUPTA, RUHAN (The Moon)&nbsp;
+                  <div class="highlighted">
+                    <span class="badge badge-success pe-auto" id="request-card-confirmed" title="Confirmed" data-desc="A check signifies your request is approved. Note: low priority requests may be unconfirmed if necessary.">
+                      <svg width="12" height="12" class="pe-none"><use xlink:href="#check"></svg>
+                    </span>
+                    <span class="badge badge-warning pe-auto" hidden id="request-card-not-confirmed" title="Not yet confirmed" data-desc="A clock signifies your request is not yet approved, but will likely be soon.">
+                      <svg width="12" height="12" class="pe-none"><use xlink:href="#clock"></svg>
+                    </span>
+                    <span class="badge badge-danger pe-auto" hidden id="request-card-waitlist" title="Not yet confirmed" data-desc="An exclamation signifies your request will be approved when there is space. (Waitlist)">
+                      <svg width="2" height="12" class="pe-none"><use xlink:href="#exclamation"></svg>
+                    </span>
+                  </div>
+                  &nbsp;
+                  <span class="badge badge-primary">H</span>
+                  &nbsp;
+                  <svg width="14" height="14"><use xlink:href="#hand"></svg>
+                  &nbsp;
+                  <svg width="14" height="14"><use xlink:href="#commenting"></svg>
+                  &nbsp;
+                  GUPTA, RUHAN (The Moon)
+                  &nbsp;
                   <em>FLEX</em>
                 </div>
               </div>
@@ -123,7 +159,7 @@
         <div class="col-lg-6">
           <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3">Get additional session request insights</h1>
           <p class="lead">
-            help ruhan what do I put here
+            A new badge reveals whether your request has been confirmed/approved yet.
           </p>
           <p class="lead fst-italic" id="request-card-description"></p>
         </div>
@@ -136,28 +172,23 @@
         <div class="col-lg-6">
           <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3">Redesigned perfectly with dark mode</h1>
           <p class="lead">
-            Edficiency+ redesigns the Edficiency website for an improved the user experience and to support new features. And, of course, it comes with a dark mode. Just change your system theme!
+            Edficiency+ redesigns the Edficiency website for an improved user experience and to support new features. And, of course, it comes with a dark mode. Just change your system theme!
           </p>
           <p class="lead fst-italic" id="request-card-description"></p>
           
         </div>
         <div class="col-10 col-sm-8 col-lg-6">
-          <div class="scroll-snap-element shadow p-2 my-1 request-date card bg-secondary-bg" id="example-request-card">
-            <div class="alert alert-secondary py-2">Monday, December 11th</div>
-            <div class="period-list d-flex my-auto h-100">
-              <div class="input-group rounded shadow-sm">
-                <span class="input-group-text"><i class="fa fa-minus-circle text-danger" title="Delete Request"></i></span>
-                <div class="form-control align-items-center d-flex flex-wrap" data-toggle="tooltip" data-html="true" title="">
-                  <span class="badge badge-success" title="Confirmed"><i class="fa fa-check"></i></span>&nbsp;
-                  <span class="badge badge-primary">H</span>&nbsp;
-                  <i class="fa fa-hand-paper-o"></i>&nbsp;
-                  <i class="fa fa-commenting"></i>&nbsp;
-                  GUPTA, RUHAN (The Moon)&nbsp;
-                  <em>FLEX</em>
-                </div>
+          <li class="shadow p-2 my-1 card bg-secondary-bg">
+            <div class="alert alert-secondary py-2">Wednesday, December 13th</div>
+            <div class="d-flex my-auto h-100">
+              <div class="input-group rounded">
+                <span class="input-group-text">
+                  <svg width="14" height="14"><use xlink:href="#search"></svg>
+                </span>
+                <input type="text" class="form-control align-items-center d-flex flex-wrap" placeholder="Search these sessions">
               </div>
             </div>
-          </div>
+          </li>
         </div>
         </div>
       </div>
