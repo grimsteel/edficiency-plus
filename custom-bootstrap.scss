@@ -116,4 +116,10 @@ small {
   border-radius: 5px;
 }
 
+div#cssmenu {
+  background: #343a40;
+  box-shadow: none;
+  margin-bottom: 10px;
+}
+
 @import "utilities/api";

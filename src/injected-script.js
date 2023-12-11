@@ -2,25 +2,21 @@
 
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']")?.remove();
 
-// get the user's name
-userName = document.querySelector("small")?.innerText.substring(21);
+const bannerBar = document.querySelector("#bannerBar");
+const navbar = document.querySelector("#cssmenu");
 
-// remove the old user name container, and replace the h4 with a happy greeting
-document.querySelector(".col.col-md-4.col-lg-3")?.remove();
-document.querySelector("h4").innerText = "Hello, " + userName + "!";
+if (bannerBar && navbar) {
+  const oldGreeting = bannerBar.querySelector("small");
+  
+  // remove the old user name container, and replace the h4 with a happy greeting
+  const [, userName] = oldGreeting.lastChild.textContent.match(/^You are logged in as (.+) $/);
+  oldGreeting.parentElement.remove();
 
-// give the navbar styles
-document.querySelector("#cssmenu").style.position = "fixed";
-document.querySelector("#cssmenu").style.width = "100%";
-document.querySelector("#cssmenu").style.top = "0";
-document.querySelector("#cssmenu").style.background = "#343a40";
-document.querySelector("#cssmenu").style.height = "auto";
-document.querySelector("#cssmenu").style.boxShadow = "none";
+  bannerBar.querySelector("h4").innerText = "Hello, " + userName + "!";
 
-// the auto-height of the navbar, and add 10px of margin
-var cssmenuHeight = document.querySelector("#cssmenu").offsetHeight + 10;
-
-document.querySelector("#bannerBar").style.marginTop = cssmenuHeight + "px";
+  // move the navbar to the top
+  document.body.insertBefore(navbar, bannerBar);
+}
 
 // Edficiency's current assignment card is really ugly. This makes the card look like a normal one
 document.querySelectorAll(".card.border.border-dark").forEach(el => {
@@ -139,6 +135,8 @@ if (location.pathname.includes("manage/profile")) {
       /** @type {HTMLElement}  */
       const sessionEl = session.get(0);
 
+      if (!sessionEl) return;
+
       sessionEl.querySelectorAll(".row").forEach(el => {
         el.classList.remove("row");
         el.style.removeProperty("margin");
@@ -157,7 +155,7 @@ if (location.pathname.includes("manage/profile")) {
       const statsHeader = statsItem.appendChild(document.createElement("span"));
       statsHeader.classList.add("font-weight-bold");
       statsHeader.innerText = "Stats: ";
-      const statsText = statsItem.appendChild(document.createElement("span"));
+      const statsText = statsItem.appendChild(document.createElement("em"));
 
       const { numSeats, numApproved, numRequested, percentApproved, percentRequested } = getSessionData(sessionEl.id);
 
