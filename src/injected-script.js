@@ -1,5 +1,26 @@
 // Basically just update everything to use Bootstrap 5
 
+/**
+ * Patch a global function to run a new function after it
+ * @param {((...args: any) => any)[]} fns 
+ */
+function monkeyPatch(fns) {
+  // Assume all functions will be loaded at the same time
+  if (window[fns[0].name]) {
+    fns.forEach(fn => {
+      const oldFn = window[fn.name];
+      // Overwrite the old function with a new one that also runs the passed in function
+      window[fn.name] = function (...args) {
+        oldFn(...args);
+        fn(...args);
+      }
+    });
+  } else if (document.readyState !== "complete") {
+    // If the function isn't loaded yet, wait for it to load
+    addEventListener("load", () => monkeyPatch(fns));
+  }
+}
+
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']")?.remove();
 
 const bannerBar = document.querySelector("#bannerBar");
@@ -66,11 +87,8 @@ if (location.pathname.includes("manage/profile")) {
 
   const teacherPrefOrder = document.getElementById("prefList");
 
-  addEventListener("load", () => {
-    const oldUpdatePrefList = window.updatePrefList;
-    window.updatePrefList = function (saved = false) {
-      oldUpdatePrefList(saved);
-      
+  monkeyPatch([
+    function updatePrefList(saved = false) {     
       teacherPrefOrder.classList.remove("bg-secondary", "bg-changed", "bg-secondary-subtle", "border-secondary", "bg-warning-subtle");
 
       if (saved) {
@@ -86,7 +104,7 @@ if (location.pathname.includes("manage/profile")) {
         el.firstChild.classList.add("d-flex");
       });
     }
-  })
+  ]);
 } else if (location.pathname.includes("requests/requestsessions")) {
   function getSessionData(id) {
     const sessionData = window.sessionDict[id];
@@ -102,36 +120,65 @@ if (location.pathname.includes("manage/profile")) {
       numApproved,
       numRequested,
       percentApproved,
-      percentRequested
+      percentRequested,
+      teacher: sessionData.tname
     };
-}
-  addEventListener("load", () => {
-    const oldCreateSessionList = window.createSessionList;
-    const oldClickSession = window.clickSession;
-    const oldCreateRequestList = window.createRequestList;
+  }
 
-    // Fix borders and spacing on sessions when they are created
-    window.createSessionList = function () {
-      oldCreateSessionList();
+  // Create a checkbox which toggles whether to show only preferred teachers
+  const prefTeachersCheck = document.getElementById("sessionHeader").appendChild(document.createElement("div"));
+  prefTeachersCheck.classList.add("form-check", "mb-0");
+  const prefTeachersCheckInput = prefTeachersCheck.appendChild(document.createElement("input"));
+  prefTeachersCheckInput.classList.add("form-check-input");
+  prefTeachersCheckInput.type = "checkbox";
+  prefTeachersCheckInput.id = "pref-teachers-check";
+  const prefTeachersCheckLabel = prefTeachersCheck.appendChild(document.createElement("label"));
+  prefTeachersCheckLabel.classList.add("form-check-label");
+  prefTeachersCheckLabel.htmlFor = "pref-teachers-check";
+  prefTeachersCheckLabel.innerText = "Only show my teachers";
 
-      document.querySelectorAll(".session").forEach(el => {
-        el.classList.remove("bg-light", "border", "border-secondary", "rounded");
-        el.classList.add("card", "bg-secondary-bg");
-        for (const child of el.children) {
-          child.classList.remove("row");
-          child.style.removeProperty("margin");
+  prefTeachersCheckInput.addEventListener("change", () => {
+    document.getElementById("sessionContainer").classList.toggle("only-preferred-teachers", prefTeachersCheckInput.checked);
+  });
+
+  monkeyPatch([
+    function createSessionList() {
+      // Fix borders and spacing on sessions when they are created
+      fetch("/public/ajax/getPrefTeachers.php", {
+        method: "POST",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
         }
+      }).then(res => res.json()).then(data => {
+        const teacherNames = data.result.map(teacher => teacher.name);
 
-        // Add the additional percentages to the badge
-        const { numSeats, numApproved, numRequested, percentApproved, percentRequested } = getSessionData(el.id);
-        el.querySelector(".badge").innerText += ` (${percentApproved}% / ${percentRequested}%)`;
-        el.querySelector(".badge").title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
+        document.querySelectorAll(".session").forEach(el => {
+          el.classList.remove("bg-light", "border", "border-secondary", "rounded");
+          el.classList.add("card", "bg-secondary-bg");
+          for (const child of el.children) {
+            child.classList.remove("row");
+            child.style.removeProperty("margin");
+          }
+  
+          // Add the additional percentages to the badge
+          const { numSeats, numApproved, numRequested, percentApproved, percentRequested, teacher } = getSessionData(el.id);
+          el.querySelector(".badge").innerText += ` (${percentApproved}% / ${percentRequested}%)`;
+          el.querySelector(".badge").title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
+          if (teacherNames.includes(teacher)) {
+            el.classList.add("is-preferred-teacher");
+            // Add a teacher icon to the teacher's name
+            const teacherIcon = el.querySelector(".font-weight-bold").appendChild(document.createElement("i"));
+            teacherIcon.classList.add("fa", "fa-user", "text-warning-emphasis");
+            teacherIcon.title = "One of your teachers";
+            teacherIcon.parentElement.classList.add("d-flex", "align-items-center", "gap-2");
+          }
+        });
       });
-    }
+    },
 
-    // Apply our changes to the expanded sessions
-    window.clickSession = function (session) {
-      oldClickSession(session);
+    function clickSession(session) {
+      // Apply our changes to the expanded sessions
+
       /** @type {HTMLElement}  */
       const sessionEl = session.get(0);
 
@@ -164,11 +211,10 @@ if (location.pathname.includes("manage/profile")) {
       sessionEl.querySelector("#helpIcon")?.classList.remove("bg-white");
       sessionEl.querySelector("#helpNeeded")?.classList.remove("border-secondary");
       sessionEl.querySelector("#helpNeeded")?.classList.add("align-items-center");
-    }
+    },
 
-    // Fix borders and spacing on requests when they are created
-    window.createRequestList = function () {
-      oldCreateRequestList();
+    function createRequestList() {
+      // Fix borders and spacing on requests when they are created
 
       document.querySelectorAll(".request-date").forEach((el, i) => {
         el.classList.remove("bg-white", "border", "border-dark", "rounded");
@@ -207,6 +253,6 @@ if (location.pathname.includes("manage/profile")) {
         }
       });
     }
-  });
+  ]);
 }
 

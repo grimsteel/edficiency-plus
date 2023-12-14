@@ -122,4 +122,8 @@ div#cssmenu {
   margin-bottom: 10px;
 }
 
+#sessionContainer.only-preferred-teachers > div:not(.is-preferred-teacher) {
+  display: none;
+}
+
 @import "utilities/api";
