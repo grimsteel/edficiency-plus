@@ -141,17 +141,18 @@ if (location.pathname.includes("manage/profile")) {
     document.getElementById("sessionContainer").classList.toggle("only-preferred-teachers", prefTeachersCheckInput.checked);
   });
 
+  const prefTeachersPromise = fetch("/public/ajax/getPrefTeachers.php", {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  }).then(res => res.json());
+
   monkeyPatch([
     function createSessionList() {
       // Fix borders and spacing on sessions when they are created
-      fetch("/public/ajax/getPrefTeachers.php", {
-        method: "POST",
-        headers: {
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      }).then(res => res.json()).then(data => {
+      prefTeachersPromise.then(data => {
         const teacherNames = data.result.map(teacher => teacher.name);
-
         document.querySelectorAll(".session").forEach(el => {
           el.classList.remove("bg-light", "border", "border-secondary", "rounded");
           el.classList.add("card", "bg-secondary-bg");
@@ -162,12 +163,13 @@ if (location.pathname.includes("manage/profile")) {
   
           // Add the additional percentages to the badge
           const { numSeats, numApproved, numRequested, percentApproved, percentRequested, teacher } = getSessionData(el.id);
-          el.querySelector(".badge").innerText += ` (${percentApproved}% / ${percentRequested}%)`;
-          el.querySelector(".badge").title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
+          const badge = el.lastChild.lastChild.lastChild;
+          badge.textContent += ` (${percentApproved}% / ${percentRequested}%)`;
+          badge.title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
           if (teacherNames.includes(teacher)) {
             el.classList.add("is-preferred-teacher");
             // Add a teacher icon to the teacher's name
-            const teacherIcon = el.querySelector(".font-weight-bold").appendChild(document.createElement("i"));
+            const teacherIcon = el.children[1].firstChild.appendChild(document.createElement("i"));
             teacherIcon.classList.add("fa", "fa-user", "text-warning-emphasis");
             teacherIcon.title = "One of your teachers";
             teacherIcon.parentElement.classList.add("d-flex", "align-items-center", "gap-2");
