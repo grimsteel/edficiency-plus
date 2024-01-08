@@ -21,6 +21,15 @@ function monkeyPatch(fns) {
   }
 }
 
+// input-group-prepend was removed in Bootstrap 5
+function removeInputGroupPrepend(el) {
+  el.querySelectorAll(".input-group-prepend").forEach(child => {
+    if (child.onclick) child.firstElementChild.onclick = child.onclick;
+    if (child.hasAttribute("style")) child.firstElementChild.setAttribute("style", child.getAttribute("style"));
+    child.replaceWith(child.firstElementChild);
+  });
+}
+
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']")?.remove();
 
 const bannerBar = document.querySelector("#bannerBar");
@@ -60,10 +69,7 @@ document.querySelectorAll(".login-btn").forEach(el => {
   el.classList.add("bg-body");
 });
 
-// input-group-prepend was removed in Bootstrap 5
-document.querySelectorAll(".input-group-prepend").forEach(el => {
-  el.replaceWith(el.firstElementChild);
-});
+removeInputGroupPrepend(document);
 
 // "loading requests" thing
 document.querySelectorAll("#requestContainer li").forEach(el => {
@@ -200,9 +206,7 @@ if (location.pathname.includes("manage/profile")) {
         el.style.removeProperty("margin");
       });
 
-      sessionEl.querySelectorAll(".input-group-prepend").forEach(el => {
-        el.replaceWith(el.firstElementChild);
-      });
+      removeInputGroupPrepend(sessionEl);
 
       const detailsItem = sessionEl.querySelector(".sessionRequestOptions").firstElementChild;
       detailsItem.firstElementChild.classList.add("font-weight-bold");
@@ -234,9 +238,7 @@ if (location.pathname.includes("manage/profile")) {
         el.firstElementChild.classList.remove("bg-secondary", "text-white", "rounded", "p-2");
         el.firstElementChild.classList.add("alert", "alert-secondary", "py-2");
 
-        el.querySelectorAll(".input-group-prepend").forEach(child => {
-          child.replaceWith(child.firstElementChild);
-        });
+        removeInputGroupPrepend(el);
 
         el.lastElementChild.classList.remove("p-1");
         el.querySelector(".input-group").classList.remove("ml-1", "border", "border-secondary");
