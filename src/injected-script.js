@@ -137,10 +137,19 @@ if (location.pathname.includes("manage/profile")) {
   prefTeachersCheckLabel.htmlFor = "pref-teachers-check";
   prefTeachersCheckLabel.innerText = "Only show my teachers";
 
+  // Load the current checkbox state from localStorage
+  if (localStorage.getItem("edf-plus-pref-teachers") === "true") {
+    prefTeachersCheckInput.checked = true;
+    document.getElementById("sessionContainer").classList.add("only-preferred-teachers");
+  }
+
   prefTeachersCheckInput.addEventListener("change", () => {
+    // Update the class and save to localStorage
     document.getElementById("sessionContainer").classList.toggle("only-preferred-teachers", prefTeachersCheckInput.checked);
+    localStorage.setItem("edf-plus-pref-teachers", prefTeachersCheckInput.checked);
   });
 
+  // Fetch the list of the user's teachers
   const prefTeachersPromise = fetch("/public/ajax/getPrefTeachers.php", {
     method: "POST",
     headers: {
