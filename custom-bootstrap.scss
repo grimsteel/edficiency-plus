@@ -96,6 +96,7 @@ $utilities: map-merge(
 }
 
 .badge.badge-warning {
+  color: white !important;
   @extend .text-bg-warning;
 }
 
@@ -124,6 +125,10 @@ div#cssmenu {
 
 #sessionContainer.only-preferred-teachers > div:not(.is-preferred-teacher) {
   display: none;
+}
+
+.list-group-item-action:hover {
+  background-color: var(--bs-secondary-bg) !important;
 }
 
 @import "utilities/api";
