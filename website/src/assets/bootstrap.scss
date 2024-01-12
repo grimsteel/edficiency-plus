@@ -38,7 +38,7 @@ $badge-padding-x: 0.4rem;
 @import "helpers";
 
 // Font awesome
-$fa-font-path: "./";
+$fa-font-path: "../assets";
 @import "fontawesome";
 @import "solid";
 @import "regular";
