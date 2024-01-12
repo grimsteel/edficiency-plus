@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "build:sass": "sass --no-source-map -s compressed -I node_modules/bootstrap/scss -I node_modules/@fortawesome/fontawesome-free/scss src/assets/bootstrap.scss public/bootstrap.min.css"
+    "build:sass": "sass --no-source-map -s compressed -I node_modules/bootstrap/scss -I node_modules/@fortawesome/fontawesome-free/scss src/assets/bootstrap.scss src/assets/bootstrap.min.css"
   },
   "dependencies": {
     "vue": "^3.3.11",
