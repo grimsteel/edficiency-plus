@@ -37,6 +37,24 @@ $badge-padding-x: 0.4rem;
 
 @import "helpers";
 
+// Font awesome
+$fa-font-path: "chrome-extension://__MSG_@@extension_id__";
+@import "fontawesome";
+@import "solid";
+@import "regular";
+
+.fa-search {
+  @extend .fa-magnifying-glass;
+}
+
+.fa-square-o {
+  @extend .far, .fa-square;
+}
+
+.fa-hand-paper-o {
+  @extend .far, .fa-hand;
+}
+
 // Edficiency uses bootstrap 4, which uses left/right instead of start/end
 
 $utilities: map-merge(
@@ -96,7 +114,6 @@ $utilities: map-merge(
 }
 
 .badge.badge-warning {
-  color: white !important;
   @extend .text-bg-warning;
 }
 

@@ -30,58 +30,9 @@ function removeInputGroupPrepend(el) {
   });
 }
 
-if (document.getElementById("sessionContainer")) {
-  // .fa.fa-square-o was renamed to .fa-regular.fa-square and .fa.fa-hand-paper-o was renamed to .fa-regular.fa-hand in Font Awesome 5+
-  new MutationObserver((mutationsList, observer) => {
-    const helpIcon = document.getElementById("helpIcon");
-    if (helpIcon) {
-      const classList = helpIcon.classList;
-      if (classList.contains("fa")) {
-        classList.replace("fa", "fa-regular");
-      }
-      const hasSquareO = classList.contains("fa-square-o");
-      const hasSquare = classList.contains("fa-square");
-      if(hasSquareO && !hasSquare) {
-        classList.add("fa-square");
-      }
-      if(!hasSquareO && hasSquare) {
-        classList.remove("fa-square");
-      }
-      const hasHandPaperO = classList.contains("fa-hand-paper-o");
-      const hasHand = classList.contains("fa-hand");
-      if(hasHandPaperO && !hasHand) {
-        classList.add("fa-hand");
-      }
-      if(!hasHandPaperO && hasHand) {
-        classList.remove("fa-hand");
-      }
-    }
-  })
-  .observe(document.getElementById("sessionContainer"), { childList: true, subtree: true, attributes: true, attributeFilter : ["class"] });
-
-  new MutationObserver((mutationsList, observer) => {
-    document.querySelectorAll("i.fa.fa-hand-paper-o").forEach(el => {
-      el.classList.replace("fa", "fa-regular");
-      el.classList.replace("fa-hand-paper-o", "fa-hand");
-    });
-  })
-  .observe(document.getElementById("requestContainer"), { childList: true, subtree: true, attributes: true, attributeFilter : ["class"] });
-
-}
-
 // remove bootstrap 4.3.1 and font awesome 4.7.0
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css']")?.remove();
 document.querySelector("link[rel=stylesheet][href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css']")?.remove();
-
-// add font awesome 6.5.1
-document.head.appendChild(Object.assign(document.createElement("link"), {
-  rel: "stylesheet",
-  href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
-  integrity: "sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==",
-  crossOrigin: "anonymous",
-  referrerPolicy: "no-referrer"
-}));
-
 
 const bannerBar = document.querySelector("#bannerBar");
 const navbar = document.querySelector("#cssmenu");
@@ -312,7 +263,7 @@ if (location.pathname.includes("manage/profile")) {
           confirmedBadge.title = isConfirmed ? "Confirmed" : "Not yet confirmed";
           const icon = confirmedBadge.appendChild(document.createElement("i"));
           // Show a checkmark if confirmed, an exclamation mark if on waitlist, and a clock if not confirmed
-          icon.classList.add("fa-solid", `fa-${isConfirmed ? "circle-check" : isOnWaitlist ? "circle-exclamation" : "clock"}`);
+          icon.classList.add("fa", `fa-${isConfirmed ? "circle-check" : isOnWaitlist ? "circle-exclamation" : "clock"}`);
           formControl.prepend(confirmedBadge, "\u00a0"); // &nbsp;
         }
       });

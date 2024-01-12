@@ -44,5 +44,16 @@
   },
   "action": {
     "default_title": "Open Tutorial"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "fa-solid-900.woff2",
+        "fa-regular-400.woff2"
+      ],
+      "matches": [
+        "https://westwood.edf.school/*"
+      ]
+    }
+  ]
 }
