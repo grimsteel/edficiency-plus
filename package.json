@@ -1,6 +1,6 @@
 {
   "name": "edficiency-plus",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Unlock Edficiency's maximum potential",
   "scripts": {
     "build:sass": "sass --no-source-map -s compressed -I node_modules/bootstrap/scss -I node_modules/@fortawesome/fontawesome-free/scss custom-bootstrap.scss src/bootstrap.min.css"
