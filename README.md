@@ -1,13 +1,18 @@
-![EDF+ Logo](https://github.com/grimsteel/edficiency-plus/assets/116324098/17dc1cba-6c3b-4368-92a2-c3681f821dd1)
+<div >
+  <img src="https://edfplus.vocabustudy.org/edfplus.png">
+  <h1>Edficiency+</h1>
+  <p>Unlock <a href="https://edficiency.com/">Edficiency</a>'s maximum potential.</p>
+  <h3>Get the extension at <a href="https://edfplus.vocabustudy.org/">edfplus.vocabustudy.org</a>!</h3>
 
-# Edficiency+
+<h2>Features</h2>
 
-See more data in [Edficiency](https://www.edficiency.com/).
+<ul>
+<li>Dark mode 🌚</li>
+<li>More session occupancy info</li>
+<li>Request approval info</li>
+<li>Filter by your teachers</li>
+<li>Notifications (Coming soon)</li>
+</ul>
 
-## Features:
-
-* Dark mode 🌚
-* More session occupancy info
-* Request approval info
-* Filter by your teachers
-* Notifications (Coming soon)
+<h3>View the changelog at <a href="https://edfplus.vocabustudy.org/changelog">edfplus.vocabustudy.org/changelog</a>.</h3>
+</div>
