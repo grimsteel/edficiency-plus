@@ -191,17 +191,8 @@ div#cssmenu {
   background-color: var(--bs-secondary-bg) !important;
 }
 
-.badge.changelog-badge {
-  border: 2px solid var(--bs-secondary);
+.fs-7 {
   font-size: 14px;
-  top: -7px;
-  position: relative;
-
-}
-
-.changelog-title {
-  display: inline;
-  margin-right: 0.4rem;
 }
 
 @import "utilities/api";
