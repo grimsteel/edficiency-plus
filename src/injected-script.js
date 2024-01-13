@@ -135,7 +135,7 @@ if (location.pathname.includes("manage/profile")) {
 
   // Create a checkbox which toggles whether to show only preferred teachers
   const prefTeachersCheck = document.getElementById("sessionHeader").appendChild(document.createElement("div"));
-  prefTeachersCheck.classList.add("form-check", "mb-0");
+  prefTeachersCheck.classList.add("form-check", "mb-0", "mt-1");
   const prefTeachersCheckInput = prefTeachersCheck.appendChild(document.createElement("input"));
   prefTeachersCheckInput.classList.add("form-check-input");
   prefTeachersCheckInput.type = "checkbox";
@@ -188,7 +188,7 @@ if (location.pathname.includes("manage/profile")) {
           }
 
           const badge = el.lastChild.lastChild.lastChild;
-          badge.textContent += ` (${percentApproved}% / ${percentRequested}%)`;
+          badge.textContent += ` (${numRequested} / ${numSeats})`; // people who've already requested are almost guaranteed to get in, so this is a better metric
           badge.title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
 
           if (teacherNames.includes(teacher)) {
@@ -223,7 +223,7 @@ if (location.pathname.includes("manage/profile")) {
       detailsItem.firstElementChild.firstElementChild.classList.add("font-weight-normal");
 
       const statsItem = detailsItem.insertAdjacentElement("afterend", document.createElement("div"));
-      statsItem.classList.add("mb-2", "px-2");
+      statsItem.classList.add("mb-2", "px-2", "mt-2");
       const statsHeader = statsItem.appendChild(document.createElement("span"));
       statsHeader.classList.add("font-weight-bold");
       statsHeader.innerText = "Stats: ";
@@ -236,6 +236,14 @@ if (location.pathname.includes("manage/profile")) {
       sessionEl.querySelector("#helpIcon")?.classList.remove("bg-white");
       sessionEl.querySelector("#helpNeeded")?.classList.remove("border-secondary");
       sessionEl.querySelector("#helpNeeded")?.classList.add("align-items-center");
+
+      sessionEl.querySelector("#helpNeeded > div.my-auto").innerText = "Help Needed?";
+      sessionEl.querySelector("#helpNeeded > div.my-auto").classList.add("mr-1");
+
+
+      sessionEl.querySelector("#lowButton").innerText = "Normal Request";
+      sessionEl.querySelector("#highButton").innerText = "Priority Request";
+
     },
 
     function createRequestList() {
