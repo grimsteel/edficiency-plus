@@ -250,12 +250,34 @@ if (location.pathname.includes("manage/profile")) {
 
       statsText.textContent = `${numApproved} confirmed (${percentApproved}%) / ${numRequested} requested (${percentRequested}%) / ${numSeats} total seats`;
 
-      sessionEl.querySelector("#helpIcon")?.classList.remove("bg-white");
-      sessionEl.querySelector("#helpNeeded")?.classList.remove("border-secondary");
-      sessionEl.querySelector("#helpNeeded")?.classList.add("align-items-center");
+      // Make the Help Needed thing an actual, accessible, focusable checkbox
+      const newHelpNeededCheckContainer = document.createElement("div");
+      newHelpNeededCheckContainer.classList.add("px-2", "py-1", "border", "rounded", "shadow");
 
-      sessionEl.querySelector("#helpNeeded > div.my-auto").textContent = "Help Needed?";
-      sessionEl.querySelector("#helpNeeded > div.my-auto").classList.add("mr-1");
+      const newHelpNeededCheck = document.createElement("div");
+      newHelpNeededCheck.classList.add("form-check", "form-check-reverse", "m-0", "help-needed-check");
+      newHelpNeededCheckContainer.appendChild(newHelpNeededCheck);
+
+      const newHelpNeededCheckInput = document.createElement("input");
+      newHelpNeededCheckInput.type = "checkbox";
+      newHelpNeededCheckInput.id = "helpNeeded";
+      newHelpNeededCheckInput.classList.add("form-check-input");
+      newHelpNeededCheck.appendChild(newHelpNeededCheckInput);
+      
+      const newHelpNeededCheckLabel = document.createElement("label");
+      newHelpNeededCheckLabel.classList.add("form-check-label");
+      newHelpNeededCheckLabel.htmlFor = "helpNeeded";
+      newHelpNeededCheckLabel.textContent = "Help Needed?";
+      newHelpNeededCheck.appendChild(newHelpNeededCheckLabel);
+
+      // Patch the `value` attr so when EDF does $("#helpNeeded").val() it works
+      Object.defineProperty(newHelpNeededCheckInput, "value", {
+        get() {
+          return this.checked;
+        }
+      });
+
+      sessionEl.querySelector("#helpNeeded").replaceWith(newHelpNeededCheckContainer);
 
       const lowButton = sessionEl.querySelector("#lowButton");
       const highButton = sessionEl.querySelector("#highButton");
@@ -319,5 +341,10 @@ if (location.pathname.includes("manage/profile")) {
       });
     }
   ]);
+
+  // There's no point in monkey-patching this
+  window.toggleHelp = () => {
+
+  }
 }
 
