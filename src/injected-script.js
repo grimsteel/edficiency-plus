@@ -170,6 +170,10 @@ if (location.pathname.includes("manage/profile")) {
       // Fix borders and spacing on sessions when they are created
       prefTeachersPromise.then(data => {
         const teacherNames = data.result.map(teacher => teacher.name);
+
+        // Stores the day of the last session we looked at
+        let currentDay = null;
+
         document.querySelectorAll(".session").forEach(el => {
           el.classList.remove("bg-light", "border", "border-secondary", "rounded");
           el.classList.add("card", "bg-secondary-bg");
@@ -179,7 +183,7 @@ if (location.pathname.includes("manage/profile")) {
           }
   
           // Add the additional percentages to the badge
-          const { numSeats, numApproved, numRequested, percentApproved, percentRequested, teacher } = getSessionData(el.id);
+          const { numSeats, numApproved, numRequested, percentRequested, teacher } = getSessionData(el.id);
 
           if (numSeats === 0) {
             // Empty session
@@ -188,7 +192,9 @@ if (location.pathname.includes("manage/profile")) {
           }
 
           const badge = el.lastChild.lastChild.lastChild;
-          badge.textContent += ` (${numRequested} / ${numSeats})`; // people who've already requested are almost guaranteed to get in, so this is a better metric
+
+          // people who've already requested are almost guaranteed to get in, so this is a better metric
+          badge.textContent += ` (${numRequested}/${numSeats} • ${percentRequested}%)`;
           badge.title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
 
           if (teacherNames.includes(teacher)) {
@@ -199,6 +205,17 @@ if (location.pathname.includes("manage/profile")) {
             teacherIcon.title = "One of your teachers";
             teacherIcon.parentElement.classList.add("d-flex", "align-items-center", "gap-2");
           }
+
+          const sessionDay = el.firstChild.firstChild.textContent;
+
+          if (currentDay !== null && currentDay !== sessionDay) {
+            // This is a new day, so add a spacer above the session
+            // Margin doesn't work if the list is filtered
+            const spacer = document.createElement("hr");
+            el.insertAdjacentElement("beforebegin", spacer);
+          }
+
+          currentDay = sessionDay;
         });
       });
     },
@@ -226,28 +243,33 @@ if (location.pathname.includes("manage/profile")) {
       statsItem.classList.add("mb-2", "px-2", "mt-2");
       const statsHeader = statsItem.appendChild(document.createElement("span"));
       statsHeader.classList.add("font-weight-bold");
-      statsHeader.innerText = "Stats: ";
+      statsHeader.textContent = "Stats: ";
       const statsText = statsItem.appendChild(document.createElement("em"));
 
       const { numSeats, numApproved, numRequested, percentApproved, percentRequested } = getSessionData(sessionEl.id);
 
-      statsText.innerText = `${numApproved} confirmed (${percentApproved}%) / ${numRequested} requested (${percentRequested}%) / ${numSeats} total seats`;
+      statsText.textContent = `${numApproved} confirmed (${percentApproved}%) / ${numRequested} requested (${percentRequested}%) / ${numSeats} total seats`;
 
       sessionEl.querySelector("#helpIcon")?.classList.remove("bg-white");
       sessionEl.querySelector("#helpNeeded")?.classList.remove("border-secondary");
       sessionEl.querySelector("#helpNeeded")?.classList.add("align-items-center");
 
-      sessionEl.querySelector("#helpNeeded > div.my-auto").innerText = "Help Needed?";
+      sessionEl.querySelector("#helpNeeded > div.my-auto").textContent = "Help Needed?";
       sessionEl.querySelector("#helpNeeded > div.my-auto").classList.add("mr-1");
 
+      const lowButton = sessionEl.querySelector("#lowButton");
+      const highButton = sessionEl.querySelector("#highButton");
 
-      sessionEl.querySelector("#lowButton").innerText = "Normal Request";
-      sessionEl.querySelector("#highButton").innerText = "Priority Request";
+      lowButton.textContent = "Normal Request";
+      highButton.textContent = "Priority Request";
 
+      lowButton.classList.replace("btn-outline-primary", "btn-primary");
     },
 
     function createRequestList() {
       // Fix borders and spacing on requests when they are created
+
+      let currentDayOfWeek = null;
 
       document.querySelectorAll(".request-date").forEach((el, i) => {
         el.classList.remove("bg-white", "border", "border-dark", "rounded");
@@ -267,6 +289,9 @@ if (location.pathname.includes("manage/profile")) {
         // Add the confirmed/not confirmed badge
         const rosterEntry = window.roster[i];
         const requestData = window.serverData.requests.find(request => window.sessionDict[request.sessionid].date === rosterEntry.date);
+        
+        const date = new Date(Date.parse(`${rosterEntry.date}T00:00`));
+        const dayOfWeek = date.getDay();
 
         if (requestData) {
           const session = window.sessionDict[requestData.sessionid];
@@ -282,6 +307,15 @@ if (location.pathname.includes("manage/profile")) {
           icon.classList.add("fa", `fa-${isConfirmed ? "circle-check" : isOnWaitlist ? "circle-exclamation" : "clock"}`);
           formControl.prepend(confirmedBadge, "\u00a0"); // &nbsp;
         }
+
+        if (dayOfWeek < currentDayOfWeek) {
+          // This is a new week, so add a spacer
+          // Margin doesn't work if the list is filtered
+          const spacer = document.createElement("hr");
+          el.insertAdjacentElement("beforebegin", spacer);
+        }
+
+        currentDayOfWeek = dayOfWeek;
       });
     }
   ]);
