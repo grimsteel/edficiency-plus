@@ -158,18 +158,36 @@
           <p class="lead">
             Edficiency+ redesigns the Edficiency website for an improved user experience and to support new features. And, of course, it comes with a dark mode. Just change your system theme!
           </p>
-          <p class="lead fst-italic" id="request-card-description"></p>
-          
         </div>
         <div class="col-10 col-sm-8 col-lg-6">
-          <li class="shadow p-2 my-1 card bg-secondary-bg">
-            <div class="alert alert-secondary py-2">Wednesday, December 13th</div>
+          <li class="shadow p-2 my-1 card bg-primary-bg" data-bs-theme="light">
+            <div class="alert alert-secondary py-2"
+              style="background-color: #e2e3e5 !important; border-color: #c4c8cb !important; color:black !important;">
+              Wednesday, December 13th</div>
             <div class="d-flex my-auto h-100">
               <div class="input-group rounded">
-                <span class="input-group-text">
-                  <span><i class="fa-solid fa-magnifying-glass" width="14" height="14"></i></span>
+                <span class="input-group-text" style="background-color: #f8f9fa !important">
+                  <span><i class="fa-solid fa-magnifying-glass" width="14" height="14"
+                      style="color: black !important;"></i></span>
                 </span>
-                <input type="text" class="form-control align-items-center d-flex flex-wrap" placeholder="Search these sessions">
+                <input type="text" class="form-control align-items-center d-flex flex-wrap" placeholder="" aria-label="Edficiency request note">
+              </div>
+            </div>
+          </li>
+          <br>
+          <li class="shadow p-2 my-1 card bg-primary-bg"
+            style="background-color: #2a2f34 !important; transform: translateX(60px); margin-right: 1rem;"
+            data-bs-theme="dark">
+            <div class="alert alert-secondary py-2"
+              style="background-color: #161719 !important; border-color: #212529 !important; color:#a7acb1 !important;">
+              Thursday, December 14th</div>
+            <div class="d-flex my-auto h-100">
+              <div class="input-group rounded" style="color: white !important; ">
+                <span class="input-group-text" style="background-color: #2b3035 !important; border-color: #495057;">
+                  <span><i class="fa-solid fa-magnifying-glass" width="14" height="14" style="color:#dee2e6"></i></span>
+                </span>
+                <input type="text" class="form-control align-items-center d-flex flex-wrap" placeholder="" aria-label="Edficiency request note"
+                  style="background-color: #212529 !important; border-color: #495057; ">
               </div>
             </div>
           </li>
@@ -178,8 +196,26 @@
       </div>
       
     </div>
-    
-    <script src="tutorial.js"></script>
   </main>
+
+  <div class="divider"></div>
+
+  <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p class="col-md-4 mb-0 text-muted">
+        &copy; 2024 <a href="https://github.com/grimsteel" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Siddhant Kameswar</a>
+      </p>
+
+      <div class="d-flex align-items-center">
+
+        <a href="https://github.com/grimsteel/edficiency-plus" target="_blank" class="link-light text-decoration-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"></path>
+          </svg>
+        </a>
+    </footer>
+  </div>
+
+  <script src="tutorial.js"></script>
 </body>
 </html>

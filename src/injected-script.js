@@ -180,9 +180,17 @@ if (location.pathname.includes("manage/profile")) {
   
           // Add the additional percentages to the badge
           const { numSeats, numApproved, numRequested, percentApproved, percentRequested, teacher } = getSessionData(el.id);
+
+          if (numSeats === 0) {
+            // Empty session
+            el.classList.add("is-empty-session");
+            return;
+          }
+
           const badge = el.lastChild.lastChild.lastChild;
           badge.textContent += ` (${percentApproved}% / ${percentRequested}%)`;
           badge.title = `${numApproved} confirmed / ${numRequested} requested / ${numSeats} seats`;
+
           if (teacherNames.includes(teacher)) {
             el.classList.add("is-preferred-teacher");
             // Add a teacher icon to the teacher's name
