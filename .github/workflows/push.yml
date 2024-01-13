@@ -38,7 +38,7 @@ jobs:
       - name: Install deps
         run: npm ci
       - name: Build files
-        run: npm run build:sass && cp src/*.woff2 website/ && cp src/bootstrap.min.css website/
+        run: npm run build:sass && cp src/*.woff2 website/ && cp src/bootstrap.min.css website/ && cp website/index.html website/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
