@@ -160,7 +160,7 @@ $utilities: map-merge(
   @extend .text-bg-warning;
 }
 
-img[src="https://westwood.edf.school/public/img/sectigo.png"] {
+img[src$="/public/img/sectigo.png"] {
   width: 106px;
 }
 

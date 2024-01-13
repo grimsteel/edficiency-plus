@@ -6,7 +6,7 @@
     "declarativeNetRequestWithHostAccess"
   ],
   "host_permissions": [
-    "https://westwood.edf.school/*"
+    "https://*.edf.school/*"
   ],
   "declarative_net_request": {
     "rule_resources": [
@@ -27,7 +27,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://westwood.edf.school/*"
+        "https://*.edf.school/*"
       ],
       "js": [
         "injected-script.js"
@@ -52,7 +52,7 @@
         "fa-regular-400.woff2"
       ],
       "matches": [
-        "https://westwood.edf.school/*"
+        "https://*.edf.school/*"
       ]
     }
   ]
