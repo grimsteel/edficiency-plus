@@ -1,7 +1,7 @@
 {
   "name": "Edficiency+",
   "description": "Unlock Edficiency's maximum potential",
-  "version": "2.1",
+  "version": "3.0",
   "permissions": [
     "declarativeNetRequestWithHostAccess"
   ],

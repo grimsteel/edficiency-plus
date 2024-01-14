@@ -1,6 +1,6 @@
 [
   {
-    "version": "v2.1",
+    "version": "v3.0",
     "date": 1705384800000,
     "changes": [
       "Empty sessions with zero total seats are now hidden",
