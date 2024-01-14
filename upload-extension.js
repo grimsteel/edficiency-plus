@@ -1,13 +1,13 @@
 // Zips and uploads the extension to the Chrome Web Store
 
-import { readFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { exec } from "child_process";
 import { promisify } from "util";
 
 const execp = promisify(exec);
 
 const EXTENSION_ID = "edfgbcbepiiknachpjkhknnmfgmacfdk";
-const { CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN } = process.env;
+const { CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, GITHUB_STEP_SUMMARY } = process.env;
 
 console.log("Reading manifest...");
 const manifestFile = await readFile("./src/manifest.json", "utf-8");
@@ -35,6 +35,11 @@ const tokenRes = await fetch(
 const tokenData = await tokenRes.json();
 
 const accessToken = tokenData.access_token;
+
+if (!accessToken) {
+  console.error("Could not generate access token");
+  process.exit(1);
+}
 
 console.log("Querying draft info...");
 const draftInfoRes = await fetch(
@@ -69,7 +74,7 @@ const publishedVersion = itemDetails[6];
 
 if (publishedVersion === version) {
   console.error("Version already published");
-  process.exit(1);
+  process.exit(2);
 }
 
 // Zip up the extension
@@ -94,8 +99,24 @@ const uploadData = await uploadRes.json();
 
 if (uploadData.uploadState === "SUCCESS") {
   console.log(`Successfully uploaded version ${version}.`);
+  // Note: We still need to log in and publish manually
+
+  if (GITHUB_STEP_SUMMARY) {
+    await writeFile(GITHUB_STEP_SUMMARY, `# Successfully uploaded version ${version}
+
+**The new version must be manually submitted for review in the developer dashboard.`);
+  }
 } else {
   console.error("Failed to upload", JSON.stringify(uploadData));
-}
 
-// Note: We still need to log in and publish manually
+  if (GITHUB_STEP_SUMMARY) {
+    await writeFile(GITHUB_STEP_SUMMARY, `# Error uploading version ${version}
+
+**Error details:**
+
+\`\`\`
+${JSON.stringify(uploadData, undefined, 2)}
+\`\`\``);
+  }
+  process.exit(3);
+}
