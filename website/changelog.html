@@ -25,116 +25,30 @@
     </style>
   </head>
   <body>
+    <template id="changelog-item-template">
+      <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
+          <div class="col-10 col-sm-8 col-lg-6">
+            <ul class="changes-list"></ul>
+          </div>
+          <div class="col-lg-6">
+            <div class="mb-3 d-flex align-items-center gap-3">
+              <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 header-version"></h1>
+              <span class="border-secondary border border-2 badge fs-7 header-tag"></span>
+            </div>
+            <p class="lead date-released"></p>
+            <p class="lead">
+              <a class="github-link"><button class="btn btn-outline-light">GitHub →</button></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <main>
       <div class="px-4 pt-5 my-3 pb-2 text-center">
         <a href="/" aria-label="Back to EDF+"><img class="d-block mx-auto mb-4" src="./edfplus.png" alt="" width="72" height="72"></a>
         <h1 class="display-5 font-weight-bold text-body-emphasis" id="top">Edficiency+ Changelog</h1>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <ul>
-              <li>Empty sessions with zero total seats are now hidden</li>
-              <li>Edficiency+ is enabled on all Edficiency websites</li>
-              <li>Changelog added</li>
-              <li>The status badge ("Open Seats", "Filling Up", "Wait List") now shows a better metric (requested seats / total seats)</li>
-              <li>Small UI improvements</li>
-              <li>"Request Low" and "Request High" are renamed to "Normal Request" and "Priority Request"</li>
-              <li>There are now dividers between weeks in the request list, and between days in the session list</li>
-            </ul>
-          </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3 d-flex align-items-center gap-3">
-              v2.1
-              <span class="border-secondary border border-2 badge fs-7">Coming soon!</span>
-            </h1>
-            <p class="lead">
-              1/16/2024
-            </p>
-            <p class="lead">
-              <a href="https://github.com/grimsteel/edficiency-plus/tree/v2.1"><button class="btn btn-outline-light">GitHub →</button></a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <ul>
-              <li>Fixed performance issues with loading large amounts of sessions</li>
-              <li>Restored interactivity to certain buttons</li>
-              <li>Improved icons</li>
-              <li>Persist "Only show my teachers" across reloads</li>
-            </ul>
-          </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3 changelog-title">v2.0</h1>
-            <p class="lead">
-              1/12/2024
-            </p>
-            <p class="lead">
-              <a href="https://github.com/grimsteel/edficiency-plus/tree/v2.0"><button class="btn btn-outline-light">GitHub →</button></a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <ul>
-              <li>Added dark mode</li>
-              <li>Added option to filter to only your teachers</li>
-              <li>Add tutorial</li>
-              <li>Improve navbar and greeting</li>
-            </ul>
-          </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3 d-flex align-items-center gap-3">
-              v1.0
-              <span class="border-secondary border border-2 badge fs-7">Alpha</span>
-            </h1>
-            <p class="lead">
-              12/13/2023
-            </p>
-            <p class="lead">
-              <a href="https://github.com/grimsteel/edficiency-plus/tree/v1.0"><button class="btn btn-outline-light">GitHub →</button></a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <ul>
-              <li>Show detailed session occupancy information</li>
-              <li>Show request approval status</li>
-            </ul>
-          </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 font-weight-bold text-body-emphasis lh-1 mb-3 d-flex align-items-center gap-3">
-              v0.1
-              <span class="border-secondary border border-2 badge fs-7">Pre-alpha</span>
-            </h1>
-            <p class="lead">
-              8/30/2023
-            </p>
-            <p class="lead">
-              <a href="https://github.com/grimsteel/edficiency-plus/tree/v0.1"><button class="btn btn-outline-light">GitHub →</button></a>
-            </p>
-          </div>
-        </div>
       </div>
     </main>
 
@@ -163,5 +77,62 @@
         </div>
       </footer>
     </div>
+    
+    <script>
+      const main = document.querySelector("main");
+
+      /** @type {HTMLTemplateElement} */
+      const itemTemplate = document.getElementById("changelog-item-template");
+
+      function makeChangelogItem({ version, date, changes, tag }, i) {
+        const item = itemTemplate.content.cloneNode(true);
+        const dateObj = new Date(date);
+
+        const dateDiff = Date.now() - date;
+        const isInFuture = dateDiff < 0;
+        const wasRecent = dateDiff < 5 * 24 * 3600 * 1000; // less than 5 days ago
+
+        item.querySelector(".header-version").textContent = version;
+
+        const tagContent =
+          tag ?? // Explicit tag
+          (
+            isInFuture ? "Coming soon!" : // Show "Coming soon!" if it's a future release
+            wasRecent && i === 0 ? "New!" : // Show "New!" if this is the first release and it was released less than 5 days ago
+            null
+          );
+        
+        if (tagContent) {
+          item.querySelector(".header-tag").textContent = tagContent;
+        } else {
+          item.querySelector(".header-tag").hidden = true;
+        }
+
+        item.querySelector(".github-link").href = `https://github.com/grimsteel/edficiency-plus/tree/${version}`;
+
+        item.querySelector(".date-released").textContent = dateObj.toLocaleDateString("en-US", { timeZone: "America/Chicago" });
+
+        item.querySelector(".changes-list").append(...changes.map(change => {
+          const li = document.createElement("li");
+          li.textContent = change;
+          return li;
+        }));
+
+        return item;
+      }
+
+      fetch("./changelog.json")
+        .then(res => res.json())
+        .then(items => {
+          items.forEach((item, i) => {
+            const divider = document.createElement("div");
+            divider.classList.add("divider");
+
+            const changelogItem = makeChangelogItem(item, i);
+
+            main.append(divider, changelogItem);
+          });
+        });
+    </script>
   </body>
 </html>

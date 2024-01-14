@@ -1,0 +1,45 @@
+[
+  {
+    "version": "v2.1",
+    "date": 1705384800000,
+    "changes": [
+      "Empty sessions with zero total seats are now hidden",
+      "Edficiency+ is enabled on all Edficiency websites",
+      "Changelog added",
+      "The status badge (\"Open Seats\", \"Filling Up\", \"Wait List\") now shows a better metric (requested seats / total seats)",
+      "Small UI improvements",
+      "\"Request Low\" and \"Request High\" are renamed to \"Normal Request\" and \"Priority Request\"",
+      "There are now dividers between weeks in the request list, and between days in the session list"
+    ]
+  },
+  {
+    "version": "v2.0",
+    "date": 1705039200000,
+    "changes": [
+      "Fixed performance issues with loading large amounts of sessions",
+      "Restored interactivity to certain buttons",
+      "Improved icons",
+      "Persist \"Only show my teachers\" across reloads"
+    ]
+  },
+  {
+    "version": "v1.0",
+    "date": 1702447200000,
+    "changes": [
+      "Added dark mode",
+      "Added option to filter to only your teachers",
+      "Add tutorial",
+      "Improve navbar and greeting"
+    ],
+    "tag": "Alpha"
+  },
+  {
+    "version": "v0.1",
+    "date": 1693371600000,
+    "changes": [
+      "Show detailed session occupancy information",
+      "Show request approval status"
+    ],
+    "tag": "Pre-alpha"
+  }
+]

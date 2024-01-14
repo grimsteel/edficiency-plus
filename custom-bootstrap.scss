@@ -196,6 +196,12 @@ div#cssmenu {
   min-height: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+  #highButton:not(:hover):not(:focus) {
+    color: var(--bs-primary-text-emphasis);
+  }
+}
+
 .fs-7 {
   font-size: 14px;
 }
