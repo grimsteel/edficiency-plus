@@ -95,7 +95,7 @@ const uploadData = await uploadRes.json();
 if (uploadData.uploadState === "SUCCESS") {
   console.log(`Successfully uploaded version ${version}.`);
 } else {
-  console.error("Failed to upload");
+  console.error("Failed to upload", JSON.stringify(uploadData));
 }
 
 // Note: We still need to log in and publish manually
