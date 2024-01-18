@@ -273,7 +273,7 @@ if (location.pathname.includes("manage/profile")) {
       // Patch the `value` attr so when EDF does $("#helpNeeded").val() it works
       Object.defineProperty(newHelpNeededCheckInput, "value", {
         get() {
-          return this.checked;
+          return this.checked ? '1' : '';
         }
       });
 
